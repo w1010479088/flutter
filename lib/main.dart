@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(App());
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -26,13 +27,13 @@ class MyApp extends StatelessWidget {
         canvasColor: Colors.yellowAccent,
         hintColor: Colors.black
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: HomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class HomePage extends StatefulWidget {
+  HomePage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -46,10 +47,10 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  StateHome createState() => StateHome();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class StateHome extends State<HomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
@@ -99,10 +100,12 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text(
               'You have pushed the button this many times:',
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.start,
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.display1,
+              style: Theme.of(context).textTheme.display2,
             ),
           ],
         ),
@@ -110,7 +113,10 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        clipBehavior: Clip.hardEdge,
+        elevation: 5,
+        mini: false,
+        child: Icon(Icons.add,size: 30,),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

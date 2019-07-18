@@ -19,13 +19,10 @@ class App extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.red,
-        highlightColor:Colors.black,
-        hoverColor: Colors.blue,
-        primaryColorLight: Colors.yellow,
+        primarySwatch: Colors.yellow,
+        primaryColorLight: Colors.blue,
         primaryColorDark: Colors.green,
-        canvasColor: Colors.yellowAccent,
-        hintColor: Colors.black
+        canvasColor: Colors.purple,
       ),
       home: HomePage(title: 'Flutter Demo Home Page'),
     );
@@ -47,11 +44,18 @@ class HomePage extends StatefulWidget {
   final String title;
 
   @override
-  StateHome createState() => StateHome();
+  StateHome createState() => StateHome(5);
 }
 
-class StateHome extends State<HomePage> {
+class StateHome extends State<HomePage>{
+
+  StateHome(int add){
+    init();
+  }
+
   int _counter = 0;
+  int mCurIndex = 1;
+  List<BottomNavigationBarItem> bars = new List(3);
 
   void _incrementCounter() {
     setState(() {
@@ -64,8 +68,33 @@ class StateHome extends State<HomePage> {
     });
   }
 
+  void init(){
+    bars.add(BottomNavigationBarItem(
+        icon: Icon(Icons.add),
+        title: Text("添加"),
+        activeIcon: Icon(Icons.add_alert)
+    ));
+    bars.add(BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+        title: Text("首页"),
+        activeIcon: Icon(Icons.add_to_home_screen)
+    ));
+    bars.add(BottomNavigationBarItem(
+        icon: Icon(Icons.more),
+        title: Text("更多"),
+        activeIcon: Icon(Icons.more_horiz)
+    ));
+  }
+
+  void onTabClick(index){
+    mCurIndex = index;
+    setState(() {
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -77,6 +106,23 @@ class StateHome extends State<HomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        centerTitle: false,
+        toolbarOpacity: 1,
+        elevation: 20,
+        bottomOpacity: 1,
+        backgroundColor: Colors.red,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: bars,
+        currentIndex: mCurIndex,
+        elevation: 20,
+        type: BottomNavigationBarType.fixed,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        backgroundColor: Colors.white70,
+        onTap: onTabClick,
+        selectedFontSize: 20,
+        unselectedFontSize: 15,
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it

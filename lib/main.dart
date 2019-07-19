@@ -4,21 +4,11 @@ import 'package:flutter/material.dart';
 void main() => runApp(App());
 
 class App extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.yellow,
         primaryColorLight: Colors.blue,
         primaryColorDark: Colors.green,
@@ -30,90 +20,115 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
+  String title;
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+  HomePage({Key key, title}) : super(key: key) {
+    this.title = title;
+  }
 
   @override
   StateHome createState() => StateHome(5);
 }
 
-class StateHome extends State<HomePage>{
+class StateHome extends State<HomePage> {
+  List<BottomNavigationBarItem> mBars = new List();
+  List<DropdownMenuItem<String>> mMenuItems = new List();
+  int mCounter = 0;
+  int mCurIndex = 1;
+  String mSelMenuTitle = "1";
 
-  StateHome(int add){
-    init();
+  StateHome(int add) {
+    _initBars();
+    _initDropDownItems();
   }
 
-  int _counter = 0;
-  int mCurIndex = 1;
-  List<BottomNavigationBarItem> bars = new List(3);
+  void _initBars() {
+    mBars.add(newBar(Icons.add, "添加"));
+    mBars.add(newBar(Icons.home, "首页"));
+    mBars.add(newBar(Icons.more, "更多"));
+  }
+
+  void _initDropDownItems() {
+    mMenuItems.add(newItem("1", "第一"));
+    mMenuItems.add(newItem("2", "第二"));
+    mMenuItems.add(newItem("3", "第三"));
+  }
+
+  BottomNavigationBarItem newBar(IconData icon, String title) {
+    return new BottomNavigationBarItem(
+        icon: new Icon(icon), title: new Text(title));
+  }
+
+  DropdownMenuItem<String> newItem(String value, String text) {
+    return new DropdownMenuItem<String>(
+      value: value,
+      child: new Text(text),
+    );
+  }
 
   void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+    mCounter++;
+    refresh();
   }
 
-  void init(){
-    bars.add(BottomNavigationBarItem(
-        icon: Icon(Icons.add),
-        title: Text("添加"),
-        activeIcon: Icon(Icons.add_alert)
-    ));
-    bars.add(BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        title: Text("首页"),
-        activeIcon: Icon(Icons.add_to_home_screen)
-    ));
-    bars.add(BottomNavigationBarItem(
-        icon: Icon(Icons.more),
-        title: Text("更多"),
-        activeIcon: Icon(Icons.more_horiz)
-    ));
-  }
-
-  void onTabClick(index){
+  void onTabClick(index) {
     mCurIndex = index;
-    setState(() {
-    });
+    refresh();
+  }
+
+  void onItemSel(index) {
+    showDialog(
+        context: context,
+        child: new AlertDialog(
+          title: new Text(index),
+          content: new Text("大俊子"),
+        ).build(context),
+    );
+  }
+
+  void refresh() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
         centerTitle: false,
         toolbarOpacity: 1,
-        elevation: 20,
-        bottomOpacity: 1,
-        backgroundColor: Colors.red,
+        elevation: 10,
+        bottomOpacity: 0.3,
+        backgroundColor: Colors.green,
+        leading: new BackButton(
+          color: Colors.black,
+        ),
+        actions: <Widget>[
+          new DropdownButton<String>(
+            items: mMenuItems,
+//            value: mSelMenuTitle,
+            iconSize: 30,
+            underline: new Text(
+              "",
+              maxLines: 1,
+            ),
+            icon: new Icon(
+              Icons.add,
+              color: Colors.red,
+            ),
+            onChanged: onItemSel,
+          )
+        ],
+        title: Text(
+          widget.title,
+          softWrap: true,
+          textAlign: TextAlign.right,
+          overflow: TextOverflow.clip,
+        ),
+        primary: true,
       ),
+
       bottomNavigationBar: BottomNavigationBar(
-        items: bars,
+        items: mBars,
         currentIndex: mCurIndex,
         elevation: 20,
         type: BottomNavigationBarType.fixed,
@@ -124,6 +139,7 @@ class StateHome extends State<HomePage>{
         selectedFontSize: 20,
         unselectedFontSize: 15,
       ),
+
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -150,19 +166,23 @@ class StateHome extends State<HomePage>{
               textAlign: TextAlign.start,
             ),
             Text(
-              '$_counter',
+              '$mCounter',
               style: Theme.of(context).textTheme.display2,
             ),
           ],
         ),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         clipBehavior: Clip.hardEdge,
         elevation: 5,
         mini: false,
-        child: Icon(Icons.add,size: 30,),
+        child: Icon(
+          Icons.add,
+          size: 30,
+        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/AlertUtil.dart';
 
 void main() => runApp(App());
 
@@ -30,22 +32,36 @@ class HomePage extends StatefulWidget {
   StateHome createState() => StateHome(5);
 }
 
-class StateHome extends State<HomePage> {
-  List<BottomNavigationBarItem> mBars = new List();
+class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
+  List<BottomNavigationBarItem> mTabBars = new List();
   List<DropdownMenuItem<String>> mMenuItems = new List();
   int mCounter = 0;
   int mCurIndex = 1;
   String mSelMenuTitle = "1";
+  TabController tabController;
 
   StateHome(int add) {
     _initBars();
     _initDropDownItems();
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    tabController = new TabController(vsync: this, length: 3);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
   void _initBars() {
-    mBars.add(newBar(Icons.add, "添加"));
-    mBars.add(newBar(Icons.home, "首页"));
-    mBars.add(newBar(Icons.more, "更多"));
+    mTabBars.add(newBar(Icons.add, "添加"));
+    mTabBars.add(newBar(Icons.home, "首页"));
+    mTabBars.add(newBar(Icons.more, "更多"));
   }
 
   void _initDropDownItems() {
@@ -73,17 +89,12 @@ class StateHome extends State<HomePage> {
 
   void onTabClick(index) {
     mCurIndex = index;
+    tabController.animateTo(index);
     refresh();
   }
 
   void onItemSel(index) {
-    showDialog(
-        context: context,
-        child: new AlertDialog(
-          title: new Text(index),
-          content: new Text("大俊子"),
-        ).build(context),
-    );
+    AlertUtil.show(context, index, "大俊子");
   }
 
   void refresh() {
@@ -93,6 +104,7 @@ class StateHome extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         centerTitle: false,
         toolbarOpacity: 1,
@@ -127,8 +139,34 @@ class StateHome extends State<HomePage> {
         primary: true,
       ),
 
+      body: new TabBarView(
+        dragStartBehavior: DragStartBehavior.down,
+        controller: this.tabController,
+        children: <Widget>[
+          new Text("Page A"),
+          new Text("Page B"),
+          new Text("Page C"),
+        ],
+      ),
+//      Center(
+//        child: Column(
+//          mainAxisAlignment: MainAxisAlignment.center,
+//          children: <Widget>[
+//            Text(
+//              'You have pushed the button this many times:',
+//              textDirection: TextDirection.rtl,
+//              textAlign: TextAlign.start,
+//            ),
+//            Text(
+//              '$mCounter',
+//              style: Theme.of(context).textTheme.display2,
+//            ),
+//          ],
+//        ),
+//      ),
+
       bottomNavigationBar: BottomNavigationBar(
-        items: mBars,
+        items: mTabBars,
         currentIndex: mCurIndex,
         elevation: 20,
         type: BottomNavigationBarType.fixed,
@@ -138,39 +176,6 @@ class StateHome extends State<HomePage> {
         onTap: onTabClick,
         selectedFontSize: 20,
         unselectedFontSize: 15,
-      ),
-
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-              textDirection: TextDirection.rtl,
-              textAlign: TextAlign.start,
-            ),
-            Text(
-              '$mCounter',
-              style: Theme.of(context).textTheme.display2,
-            ),
-          ],
-        ),
       ),
 
       floatingActionButton: FloatingActionButton(

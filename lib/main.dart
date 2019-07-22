@@ -33,7 +33,7 @@ class HomePage extends StatefulWidget {
 }
 
 class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
-  List<BottomNavigationBarItem> mTabBars = new List();
+  List<Widget> mTabBars = new List();
   List<DropdownMenuItem<String>> mMenuItems = new List();
   int mCounter = 0;
   int mCurIndex = 1;
@@ -70,9 +70,8 @@ class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
     mMenuItems.add(newItem("3", "第三"));
   }
 
-  BottomNavigationBarItem newBar(IconData icon, String title) {
-    return new BottomNavigationBarItem(
-        icon: new Icon(icon), title: new Text(title));
+  Widget newBar(IconData icon, String title) {
+    return new Tab(text: title, icon: new Icon(icon));
   }
 
   DropdownMenuItem<String> newItem(String value, String text) {
@@ -104,7 +103,6 @@ class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         centerTitle: false,
         toolbarOpacity: 1,
@@ -117,7 +115,6 @@ class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
         actions: <Widget>[
           new DropdownButton<String>(
             items: mMenuItems,
-//            value: mSelMenuTitle,
             iconSize: 30,
             underline: new Text(
               "",
@@ -148,34 +145,15 @@ class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
           new Text("Page C"),
         ],
       ),
-//      Center(
-//        child: Column(
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          children: <Widget>[
-//            Text(
-//              'You have pushed the button this many times:',
-//              textDirection: TextDirection.rtl,
-//              textAlign: TextAlign.start,
-//            ),
-//            Text(
-//              '$mCounter',
-//              style: Theme.of(context).textTheme.display2,
-//            ),
-//          ],
-//        ),
-//      ),
 
-      bottomNavigationBar: BottomNavigationBar(
-        items: mTabBars,
-        currentIndex: mCurIndex,
-        elevation: 20,
-        type: BottomNavigationBarType.fixed,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        backgroundColor: Colors.white70,
-        onTap: onTabClick,
-        selectedFontSize: 20,
-        unselectedFontSize: 15,
+      bottomNavigationBar: new TabBar(
+        tabs: mTabBars,
+        controller: this.tabController,
+        isScrollable: false,
+        labelColor: Colors.green,
+        indicatorColor: Colors.transparent,
+        unselectedLabelColor: Colors.black,
+        indicatorSize: TabBarIndicatorSize.tab,
       ),
 
       floatingActionButton: FloatingActionButton(
@@ -188,7 +166,7 @@ class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
           Icons.add,
           size: 30,
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

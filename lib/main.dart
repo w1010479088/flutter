@@ -2,6 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/AlertUtil.dart';
+import 'package:flutter_app/JsonUtil.dart';
+import 'package:flutter_app/LogUtil.dart';
+import 'package:flutter_app/Requestor.dart';
+
+import 'AppConfigs.dart';
+import 'ResponseModel.dart';
 
 void main() => runApp(App());
 
@@ -83,6 +89,11 @@ class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
 
   void _incrementCounter() {
     mCounter++;
+    Requestor.special(1088, 1, (res) {
+      LogUtil.log(res.toString());
+//      ResponseModel response = JsonUtil.convert<ResponseModel>(res);
+//      String message = response.message;
+    }, (err) => {LogUtil.log(err)});
     refresh();
   }
 
@@ -135,7 +146,6 @@ class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
         ),
         primary: true,
       ),
-
       body: new TabBarView(
         dragStartBehavior: DragStartBehavior.down,
         controller: this.tabController,
@@ -145,7 +155,6 @@ class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
           new Text("Page C"),
         ],
       ),
-
       bottomNavigationBar: new TabBar(
         tabs: mTabBars,
         controller: this.tabController,
@@ -155,7 +164,6 @@ class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
         unselectedLabelColor: Colors.black,
         indicatorSize: TabBarIndicatorSize.tab,
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',

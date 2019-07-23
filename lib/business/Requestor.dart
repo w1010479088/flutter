@@ -1,5 +1,5 @@
 import 'dart:collection';
-import 'package:flutter_app/HttpHelper.dart';
+import 'package:flutter_app/business/HttpHelper.dart';
 
 class Requestor {
   static special(specialId, curPage, success, err) {

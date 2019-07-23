@@ -1,13 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/AlertUtil.dart';
-import 'package:flutter_app/JsonUtil.dart';
-import 'package:flutter_app/LogUtil.dart';
-import 'package:flutter_app/Requestor.dart';
-
-import 'AppConfigs.dart';
-import 'ResponseModel.dart';
+import 'package:flutter_app/model/BlockItem.dart';
+import 'package:flutter_app/model/BlockMeta.dart';
+import 'package:flutter_app/model/Summary.dart';
+import 'package:flutter_app/util/AlertUtil.dart';
+import 'package:flutter_app/util/LogUtil.dart';
+import 'package:flutter_app/business/Requestor.dart';
 
 void main() => runApp(App());
 
@@ -90,9 +91,19 @@ class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
   void _incrementCounter() {
     mCounter++;
     Requestor.special(1088, 1, (res) {
-      LogUtil.log(res.toString());
-//      ResponseModel response = JsonUtil.convert<ResponseModel>(res);
-//      String message = response.message;
+      BlockMeta meta = BlockMeta.fromJson(res);
+      List<BlockItem> blocks = meta.special_list;
+      LogUtil.log("block-size = ${blocks.length}");
+      for (var block in blocks) {
+        for (var item in block.items) {
+          LogUtil.log("show_type = ${item.show_type}");
+        }
+      }
+//      summary.forEach((block) {
+//        block.items.forEach((item) {
+//          LogUtil.log("show_type = ${item.show_type}");
+//        });
+//      });
     }, (err) => {LogUtil.log(err)});
     refresh();
   }

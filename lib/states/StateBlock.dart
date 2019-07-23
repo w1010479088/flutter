@@ -13,12 +13,13 @@ class StateBlock extends State<BlockPage> with SingleTickerProviderStateMixin {
   List<Widget> mViews = new List();
 
   StateBlock(){
-    refresh();
+//    refresh();
   }
 
   @override
   void initState() {
     super.initState();
+    refresh();
 //    Requestor.special(1088, 1, (BlockMeta res) {
 //      LogUtil.log("Requestor End");
 //      refresh();
@@ -32,6 +33,9 @@ class StateBlock extends State<BlockPage> with SingleTickerProviderStateMixin {
 
   void refresh(){
     LogUtil.log("Refresh Start");
+    mViews.add(WidgetUtil.image(URL_IMAGE));
+    mViews.add(WidgetUtil.image(URL_IMAGE));
+    mViews.add(WidgetUtil.image(URL_IMAGE));
     mViews.add(WidgetUtil.image(URL_IMAGE));
     setState(() {
       LogUtil.log("Refresh End ${mViews.length}");

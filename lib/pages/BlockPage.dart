@@ -6,6 +6,7 @@ class BlockPage extends StatefulWidget {
   State mState;
 
   BlockPage() {
+    //TODO 为啥用mState不行
     LogUtil.log("Constructor");
     mState = new StateBlock();
   }
@@ -13,6 +14,6 @@ class BlockPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     LogUtil.log("BlockPage -> CreateState = ${mState != null}");
-    return mState;
+    return new StateBlock();
   }
 }

@@ -12,8 +12,8 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.yellow,
         primaryColorLight: Colors.blue,
-        primaryColorDark: Colors.green,
-        canvasColor: Colors.purple,
+        primaryColorDark: Colors.black,
+        canvasColor: Colors.white,
       ),
       home: MainPage(title: 'Flutter Demo Home Page'),
 

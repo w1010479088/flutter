@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/BlockItem.dart';
 import 'package:flutter_app/pages/BlockPage.dart';
 import 'package:flutter_app/pages/MainPage.dart';
 import 'package:flutter_app/util/AlertUtil.dart';
-import 'package:flutter_app/util/LogUtil.dart';
-import 'package:flutter_app/business/Requestor.dart';
 import 'package:flutter/gestures.dart';
 
 class StateMain extends State<MainPage> with SingleTickerProviderStateMixin {
@@ -58,16 +55,6 @@ class StateMain extends State<MainPage> with SingleTickerProviderStateMixin {
 
   void _incrementCounter() {
     mCounter++;
-    Requestor.special(1088, 1, (res) {
-      List<BlockItem> blocks = res.special_list;
-      LogUtil.log("block-size = ${blocks.length}");
-      for (var block in blocks) {
-        for (var item in block.items) {
-          LogUtil.log("show_type = ${item.show_type}");
-        }
-      }
-    }, (err) => {LogUtil.log(err)});
-    refresh();
   }
 
   void onTabClick(index) {
@@ -92,9 +79,9 @@ class StateMain extends State<MainPage> with SingleTickerProviderStateMixin {
         toolbarOpacity: 1,
         elevation: 10,
         bottomOpacity: 0.3,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.black,
         leading: new BackButton(
-          color: Colors.black,
+          color: Colors.white,
         ),
         actions: <Widget>[
           new DropdownButton<String>(
@@ -106,14 +93,15 @@ class StateMain extends State<MainPage> with SingleTickerProviderStateMixin {
             ),
             icon: new Icon(
               Icons.add,
-              color: Colors.red,
+              color: Colors.white,
             ),
             onChanged: onItemSel,
           )
         ],
-        title: Text(
+        title: new Text(
           widget.title,
           softWrap: true,
+          style: new TextStyle(color: Colors.white),
           textAlign: TextAlign.right,
           overflow: TextOverflow.clip,
         ),

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/pages/HomePage.dart';
+import 'package:flutter_app/pages/MainPage.dart';
 
 void main() => runApp(App());
 
@@ -15,7 +15,7 @@ class App extends StatelessWidget {
         primaryColorDark: Colors.green,
         canvasColor: Colors.purple,
       ),
-      home: HomePage(title: 'Flutter Demo Home Page'),
+      home: MainPage(title: 'Flutter Demo Home Page'),
 
     );
   }

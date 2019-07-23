@@ -5,7 +5,6 @@ class StateBlock extends State<BlockPage>{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new Text("BlockPage -> StateBlock");
   }
 

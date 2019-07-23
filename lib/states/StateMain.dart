@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/BlockItem.dart';
-import 'package:flutter_app/model/BlockMeta.dart';
 import 'package:flutter_app/pages/BlockPage.dart';
-import 'package:flutter_app/pages/HomePage.dart';
+import 'package:flutter_app/pages/MainPage.dart';
 import 'package:flutter_app/util/AlertUtil.dart';
 import 'package:flutter_app/util/LogUtil.dart';
 import 'package:flutter_app/business/Requestor.dart';
 import 'package:flutter/gestures.dart';
 
-class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
+class StateMain extends State<MainPage> with SingleTickerProviderStateMixin {
   List<Widget> mTabBars = new List();
   List<DropdownMenuItem<String>> mMenuItems = new List();
   int mCounter = 0;
@@ -17,7 +16,7 @@ class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
   String mSelMenuTitle = "1";
   TabController tabController;
 
-  StateHome(int add) {
+  StateMain(int add) {
     _initBars();
     _initDropDownItems();
   }

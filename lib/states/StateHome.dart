@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/BlockItem.dart';
 import 'package:flutter_app/model/BlockMeta.dart';
+import 'package:flutter_app/pages/BlockPage.dart';
 import 'package:flutter_app/pages/HomePage.dart';
 import 'package:flutter_app/util/AlertUtil.dart';
 import 'package:flutter_app/util/LogUtil.dart';
@@ -59,19 +60,13 @@ class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
   void _incrementCounter() {
     mCounter++;
     Requestor.special(1088, 1, (res) {
-      BlockMeta meta = BlockMeta.fromJson(res);
-      List<BlockItem> blocks = meta.special_list;
+      List<BlockItem> blocks = res.special_list;
       LogUtil.log("block-size = ${blocks.length}");
       for (var block in blocks) {
         for (var item in block.items) {
           LogUtil.log("show_type = ${item.show_type}");
         }
       }
-//      summary.forEach((block) {
-//        block.items.forEach((item) {
-//          LogUtil.log("show_type = ${item.show_type}");
-//        });
-//      });
     }, (err) => {LogUtil.log(err)});
     refresh();
   }
@@ -129,7 +124,7 @@ class StateHome extends State<HomePage> with SingleTickerProviderStateMixin {
         dragStartBehavior: DragStartBehavior.down,
         controller: this.tabController,
         children: <Widget>[
-          new Text("Page A"),
+          new BlockPage(),
           new Text("Page B"),
           new Text("Page C"),
         ],

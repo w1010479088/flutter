@@ -8,7 +8,7 @@ class HttpHelper {
     dio.options.baseUrl = AppConfigs.host();
     dio.options.connectTimeout = AppConfigs.timeOut();
     dio.options.receiveTimeout = AppConfigs.timeOut();
-//    params["HPHPSESSID"] = "xxxx";
+//    params["HPHPSESSID"] = "xxxx";  //TOOD 需要添加SessionId
     params["client_type"] = "android";
     try {
       Response<String> response =

@@ -1,6 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app/pages/StateHome.dart';
+import 'package:flutter_app/states/StateHome.dart';
 
 // ignore: must_be_immutable
 class HomePage extends StatefulWidget {
